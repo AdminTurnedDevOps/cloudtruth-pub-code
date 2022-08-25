@@ -15,5 +15,5 @@ steps:
   displayName: 'Install CloudTruth CLI'
 
 - script: |
-    cloudtruth --api-key ${{ secrets.API_KEY }} projects list
+    cloudtruth --api-key $(CTAPI) projects list
   displayName: 'Get a list of projects'
