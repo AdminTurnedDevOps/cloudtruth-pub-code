@@ -1,0 +1,16 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    CLOUDTRUTH_CLI_VERSION=$(curl --silent "https://api.github.com/repos/cloudtruth/cloudtruth-cli/releases/latest" | grep "tag_name" | sed -E 's/.*"([^"]+)".*/\1/')
+    curl -sLOJ https://github.com/cloudtruth/cloudtruth-cli/releases/download/${CLOUDTRUTH_CLI_VERSION}/cloudtruth_${CLOUDTRUTH_CLI_VERSION}_amd64.deb
+    sudo dpkg -i cloudtruth_${CLOUDTRUTH_CLI_VERSION}_amd64.deb
+  displayName: 'Install CloudTruth CLI'
+
+- script: |
+    cloudtruth --api-key $(CTAPI) projects list
+  displayName: 'Get a list of projects'
